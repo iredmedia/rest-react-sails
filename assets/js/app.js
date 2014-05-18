@@ -51,6 +51,15 @@
 
 
 
+
+
+/*
+
+
+/// APP BEINS HERE
+
+
+    // Create application view (entry point)
     var App = React.createClass({
       render: function() {
         return (
@@ -59,6 +68,7 @@
       }
     });
 
+    // Create user list view
     var UserList = React.createClass({
       render: function() {
         return (
@@ -67,6 +77,7 @@
       }
     });
 
+    // Create user view
     var User = React.createClass({
       render: function() {
         return (
@@ -76,7 +87,7 @@
     });
 
 
-
+    // Create the initial view action
     var AppRouteTarget = {
       setupLayout: function () {
         React.renderComponent(
@@ -86,6 +97,7 @@
       }
     };
 
+    // Create additional view actions
     var UsersRouteTarget = {
       list: function () {
         var users = [];
@@ -107,17 +119,13 @@
       }
     };
 
-    /**
-     * @jsx React.DOM
-     */
-
-     // define routes
+    // Define routes
     Aviator.setRoutes({
-      target: AppRouteTarget,
+      'target': AppRouteTarget,
       // setupLayout is run for every route in the route tree.
       '/*': 'setupLayout',
       '/users': {
-        target: UsersRouteTarget,
+        'target': UsersRouteTarget,
         '/': 'list',
         '/:id': 'show'
       }
@@ -127,8 +135,134 @@
     Aviator.dispatch();
 
     setTimeout(function(){
-      Aviator.navigate('/users/');
+      //Aviator.navigate('/users/');
     }, 2000)
+
+*/
+
+
+
+
+
+
+
+
+    /////// Backbone Stuff ///////
+
+    // Define User Model
+    var User = Backbone.Model.extend({
+      defaults: function() {
+        return {
+          name: "User",
+          active: false
+        };
+      },
+
+      login: function() {
+        this.save({active: !this.get("active")});
+      }
+    });
+
+    // Define UserList Collection
+    var UserList = Backbone.Collection.extend({
+      model: User,
+      url: '/user/',
+
+      active: function () {
+        return this.where({active: true});
+      },
+      inactive: function () {
+        return this.where({active: !true});
+      }
+    });
+
+    // Instantiate a new collection
+    var Users = new UserList()
+
+    var AppView = Backbone.View.extend({
+      el: $("body"),
+      events: {
+        "click #create": "create"
+      },
+
+      initialize: function() {
+        this.listenTo(Users, 'add', this.addOne);
+        // this.listenTo(Users, 'reset', this.addAll);
+        // this.listenTo(Users, 'all', this.render);
+
+        Users.fetch();
+        $('<ul id="list"></ul>').appendTo("body");
+        $('<button id="create">Create</button>').appendTo("body");
+        $('<button id="update">Update</button>').appendTo("body");
+      },
+
+      create: function () {
+        Users.create({"name": "KEVIN" + Date.now()})
+      },
+
+      addAll: function () {
+        Users.each(this.addOne, this)
+      },
+
+      addOne: function(user) {
+        var view = new UserView({model: user});
+        this.$("#list").append($('<li>').text(view.update()));
+      },
+    });
+
+    var UserView = Backbone.View.extend({
+      events: {
+        "click #update": "update"
+      },
+
+      update: function () {
+        var name = "UserView" + Date.now();
+        // this.model.save({"name": name})
+        return name;
+      }
+    });
+
+
+    // Create a new collection
+    var App = new AppView;
+
+
+
+
+
+
+
+//    // Helper - generates a user
+//    function generate() {
+//      return new User({"name": "User" + Date.now()})
+//    }
+//
+//
+//    // Create test set of users
+//    var set = []
+//    for (var i = 0; i < 10; i++) {
+//      set.push(generate())
+//    }
+//
+//    users.add(set);
+//
+//    users.fetch();
+
+    // Push them to the stack
+
+
+
+
+
+
+
+
+
+////// APP ENDS HERE ///////
+
+
+
+
 
 
 
