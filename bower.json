@@ -19,5 +19,20 @@
     "backbone": "~1.1.2",
     "jquery": "~2.1.1",
     "react": "~0.10.0"
+  },
+  // The most essential part of Bower and Grunt <3
+  "exportsOverride": {
+    "jquery": {
+      "js/vendor": "**/jquery.min.js"
+    },
+    "react": {
+      "js/vendor": "**/react.min.js"
+    },
+    "backbone": {
+      "js/vendor": "**/backbone.js"
+    },
+    "aviator": {
+      "js/vendor": "**/aviator.js"
+    }
   }
 }

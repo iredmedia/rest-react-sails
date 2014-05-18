@@ -134,9 +134,24 @@ module.exports = function (grunt) {
   grunt.loadTasks(depsPath + '/grunt-contrib-less/tasks');
   grunt.loadTasks(depsPath + '/grunt-contrib-coffee/tasks');
 
+  grunt.loadNpmTasks('grunt-bower-task');
+
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    bower: {
+      install: {
+        options: {
+          targetDir: './assets/linker',
+          layout: 'byType',
+          install: true,
+          verbose: false,
+          cleanTargetDir: false,
+          cleanBowerDir: true,
+          bowerOptions: {}
+        }
+      }
+    },
 
     copy: {
       dev: {
