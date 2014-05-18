@@ -21,10 +21,8 @@
   }
 
   socket.on('connect', function socketConnected() {
-
     // Listen for Comet messages from Sails
     socket.on('message', function messageReceived(message) {
-
       ///////////////////////////////////////////////////////////
       // Replace the following with your own custom logic
       // to run when a new message arrives from the Sails.js
@@ -32,122 +30,7 @@
       ///////////////////////////////////////////////////////////
       log('New comet message received :: ', message);
       //////////////////////////////////////////////////////
-
     });
-
-    ///////////////////////////////////////////////////////////
-    // Here's where you'll want to add any custom logic for
-    // when the browser establishes its socket connection to
-    // the Sails.js server.
-    ///////////////////////////////////////////////////////////
-    log(
-        'Socket is now connected and globally accessible as `socket`.\n' +
-        'e.g. to send a GET request to Sails, try \n' +
-        '`socket.get("/", function (response) ' +
-        '{ console.log(response); })`'
-    );
-    ///////////////////////////////////////////////////////////
-
-
-
-
-
-
-/*
-
-
-/// APP BEINS HERE
-
-
-    // Create application view (entry point)
-    var App = React.createClass({
-      render: function() {
-        return (
-          <div className='page-content'>{"APP"}</div>
-        );
-      }
-    });
-
-    // Create user list view
-    var UserList = React.createClass({
-      render: function() {
-        return (
-          <div>{"USERLIST"}</div>
-        );
-      }
-    });
-
-    // Create user view
-    var User = React.createClass({
-      render: function() {
-        return (
-          <div>{"USER"}</div>
-        );
-      }
-    });
-
-
-    // Create the initial view action
-    var AppRouteTarget = {
-      setupLayout: function () {
-        React.renderComponent(
-          <App />,
-          document.querySelector('body')
-        );
-      }
-    };
-
-    // Create additional view actions
-    var UsersRouteTarget = {
-      list: function () {
-        var users = [];
-
-        React.renderComponent(
-          <UserList users={users} />,
-          document.querySelector('.page-content')
-        );
-      },
-
-      show: function (request) {
-        // placeholder - use favorite ajax lib here
-        var user = { id: request.params.id };
-
-        React.renderComponent(
-          <User user={user} />,
-          document.querySelector('.page-content')
-        );
-      }
-    };
-
-    // Define routes
-    Aviator.setRoutes({
-      'target': AppRouteTarget,
-      // setupLayout is run for every route in the route tree.
-      '/*': 'setupLayout',
-      '/users': {
-        'target': UsersRouteTarget,
-        '/': 'list',
-        '/:id': 'show'
-      }
-    });
-
-    // Start routing
-    Aviator.dispatch();
-
-    setTimeout(function(){
-      //Aviator.navigate('/users/');
-    }, 2000)
-
-*/
-
-
-
-
-
-
-
-
-    /////// Backbone Stuff ///////
 
     // Define User Model
     var User = Backbone.Model.extend({
@@ -166,11 +49,13 @@
     // Define UserList Collection
     var UserList = Backbone.Collection.extend({
       model: User,
+
       url: '/user/',
 
       active: function () {
         return this.where({active: true});
       },
+
       inactive: function () {
         return this.where({active: !true});
       }
@@ -179,9 +64,9 @@
     // Instantiate a new collection
     var Users = new UserList()
 
+    // Create a
     var AppView = Backbone.View.extend({
       el: $("body"),
-
 
       events: {
         "click .create": "create"
@@ -199,13 +84,6 @@
         Users.fetch();
       },
 
-      // template: _.template($('<div><button id="create">create</button><ul id="list"></ul></div>').html()),
-
-      // render: function () {
-      //   this.$el.html(this.template())
-      //   return this;
-      // },
-
       create: function () {
         Users.create({"name": "KEVIN" + Date.now()})
       },
@@ -216,7 +94,7 @@
 
       addOne: function(user) {
         var view = new UserView({model: user});
-        this.$("#list").append(view.render().$el) //$('<li>').text(view.update()));
+        this.$("#list").append(view.render().$el);
       },
     });
 
@@ -251,32 +129,11 @@
 
     // Create a new collection
     var App = new AppView;
-
-
-
-
-
-
-
-
-
-
-////// APP ENDS HERE ///////
-
-
-
-
-
-
-
-
   });
-
 
   // Expose connected `socket` instance globally so that it's easy
   // to experiment with from the browser console while prototyping.
   window.socket = socket;
-
 
   // Simple log function to keep the example simple
   function log () {
@@ -284,8 +141,6 @@
       console.log.apply(console, arguments);
     }
   }
-
-
 })(
 
   // In case you're wrapping socket.io to prevent pollution of the global namespace,
