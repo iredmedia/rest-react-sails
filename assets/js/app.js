@@ -65,14 +65,22 @@
       initialize: function() {
         this.listenTo(Users, "add", this.addOne); // this.listenTo(Users, 'reset', this.addAll);
 
+        // Create input and controls
+        this.$el.append($("<input placeholder='name'     type='text' id='name'>"));
+        this.$el.append($("<input placeholder='password' type='text' id='password'>"));
         this.$el.append($("<button>").text("create").addClass("create"))
+
+        // Create list
         this.$el.append($("<ul id='list'>"));
 
         Users.fetch();
       },
 
       create: function () {
-        Users.create({"name": "KEVIN" + Date.now()})
+        Users.create({
+          "name":     this.$el.find("#name").val(),
+          "password": this.$el.find("#password").val()
+        })
       },
 
       addOne: function(user) {
