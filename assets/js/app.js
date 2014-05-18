@@ -1,4 +1,8 @@
 /**
+ * @jsx React.DOM
+ */
+
+/**
  * app.js
  *
  * This file contains some conventional defaults for working with Socket.io + Sails.
@@ -31,19 +35,100 @@
 
     });
 
-
     ///////////////////////////////////////////////////////////
     // Here's where you'll want to add any custom logic for
-    // when the browser establishes its socket connection to 
+    // when the browser establishes its socket connection to
     // the Sails.js server.
     ///////////////////////////////////////////////////////////
     log(
-        'Socket is now connected and globally accessible as `socket`.\n' + 
-        'e.g. to send a GET request to Sails, try \n' + 
+        'Socket is now connected and globally accessible as `socket`.\n' +
+        'e.g. to send a GET request to Sails, try \n' +
         '`socket.get("/", function (response) ' +
         '{ console.log(response); })`'
     );
     ///////////////////////////////////////////////////////////
+
+
+
+
+var App = React.createClass({
+  render: function() {
+    return (
+      <div className='page-content'>{"APP"}</div>
+    );
+  }
+});
+
+var UserList = React.createClass({
+  render: function() {
+    return (
+      <div>{"USERLIST"}</div>
+    );
+  }
+});
+
+var User = React.createClass({
+  render: function() {
+    return (
+      <div>{"USER"}</div>
+    );
+  }
+});
+
+
+
+var AppRouteTarget = {
+  setupLayout: function () {
+    React.renderComponent(
+      <App />,
+      document.querySelector('body')
+    );
+  }
+};
+
+var UsersRouteTarget = {
+  list: function () {
+    var users = [];
+
+    React.renderComponent(
+      <UserList users={users} />,
+      document.querySelector('.page-content')
+    );
+  },
+
+  show: function (request) {
+    // placeholder - use favorite ajax lib here
+    var user = { id: request.params.id };
+
+    React.renderComponent(
+      <User user={user} />,
+      document.querySelector('.page-content')
+    );
+  }
+};
+
+/**
+ * @jsx React.DOM
+ */
+
+ // define routes
+Aviator.setRoutes({
+  target: AppRouteTarget,
+  // setupLayout is run for every route in the route tree.
+  '/*': 'setupLayout',
+  '/users': {
+    target: UsersRouteTarget,
+    '/': 'list',
+    '/:id': 'show'
+  }
+});
+
+// Start routing
+Aviator.dispatch();
+
+
+
+
 
 
   });
@@ -60,7 +145,7 @@
       console.log.apply(console, arguments);
     }
   }
-  
+
 
 })(
 

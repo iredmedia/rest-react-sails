@@ -18,14 +18,18 @@
     "aviator": "~0.4.1",
     "backbone": "~1.1.2",
     "jquery": "~2.1.1",
-    "react": "~0.10.0"
+    "react": "~0.10.0",
+    "underscore": "~1.6.0"
   },
   "exportsOverride": {
     "jquery": {
       "js/vendor": "**/jquery.min.js"
     },
     "react": {
-      "js/vendor": "**/react.min.js"
+      "js/vendor": ["**/*.js"]
+    },
+    "underscore": {
+      "js/vendor": "**/underscore.js"
     },
     "backbone": {
       "js/vendor": "**/backbone.js"
