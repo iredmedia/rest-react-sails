@@ -1,0 +1,23 @@
+{
+  "name": "react-sails",
+  "version": "0.0.0",
+  "authors": [
+    "Kevin Redman <kevin@fanxchange.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "assets/linker/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "aviator": "~0.4.1",
+    "backbone": "~1.1.2",
+    "jquery": "~2.1.1",
+    "react": "~0.10.0"
+  }
+}
