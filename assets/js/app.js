@@ -63,10 +63,7 @@
       },
 
       initialize: function() {
-        this.listenTo(Users, "add",    this.addOne);
-        this.listenTo(Users, "remove", this.removeOne);
-        // this.listenTo(Users, 'reset', this.addAll);
-        // this.listenTo(Users, 'all',    this.render);
+        this.listenTo(Users, "add", this.addOne); // this.listenTo(Users, 'reset', this.addAll);
 
         this.$el.append($("<button>").text("create").addClass("create"))
         this.$el.append($("<ul id='list'>"));
@@ -76,10 +73,6 @@
 
       create: function () {
         Users.create({"name": "KEVIN" + Date.now()})
-      },
-
-      removeOne: function(user) {
-        Users.remove(user);
       },
 
       addOne: function(user) {
