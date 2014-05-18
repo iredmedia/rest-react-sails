@@ -14,7 +14,7 @@
 
 (function (io) {
 
-  // as soon as this file is loaded, connect automatically, 
+  // as soon as this file is loaded, connect automatically,
   var socket = io.connect();
   if (typeof console !== 'undefined') {
     log('Connecting to Sails.js...');
@@ -51,82 +51,84 @@
 
 
 
-var App = React.createClass({
-  render: function() {
-    return (
-      <div className='page-content'>{"APP"}</div>
-    );
-  }
-});
+    var App = React.createClass({
+      render: function() {
+        return (
+          <div className='page-content'>{"APP"}</div>
+        );
+      }
+    });
 
-var UserList = React.createClass({
-  render: function() {
-    return (
-      <div>{"USERLIST"}</div>
-    );
-  }
-});
+    var UserList = React.createClass({
+      render: function() {
+        return (
+          <div>{"USERLIST"}</div>
+        );
+      }
+    });
 
-var User = React.createClass({
-  render: function() {
-    return (
-      <div>{"USER"}</div>
-    );
-  }
-});
-
-
-
-var AppRouteTarget = {
-  setupLayout: function () {
-    React.renderComponent(
-      <App />,
-      document.querySelector('body')
-    );
-  }
-};
-
-var UsersRouteTarget = {
-  list: function () {
-    var users = [];
-
-    React.renderComponent(
-      <UserList users={users} />,
-      document.querySelector('.page-content')
-    );
-  },
-
-  show: function (request) {
-    // placeholder - use favorite ajax lib here
-    var user = { id: request.params.id };
-
-    React.renderComponent(
-      <User user={user} />,
-      document.querySelector('.page-content')
-    );
-  }
-};
-
-/**
- * @jsx React.DOM
- */
-
- // define routes
-Aviator.setRoutes({
-  target: AppRouteTarget,
-  // setupLayout is run for every route in the route tree.
-  '/*': 'setupLayout',
-  '/users': {
-    target: UsersRouteTarget,
-    '/': 'list',
-    '/:id': 'show'
-  }
-});
-
-// Start routing
-Aviator.dispatch();
+    var User = React.createClass({
+      render: function() {
+        return (
+          <div>{"USER"}</div>
+        );
+      }
+    });
 
 
+
+    var AppRouteTarget = {
+      setupLayout: function () {
+        React.renderComponent(
+          <App />,
+          document.querySelector('body')
+        );
+      }
+    };
+
+    var UsersRouteTarget = {
+      list: function () {
+        var users = [];
+
+        React.renderComponent(
+          <UserList users={users} />,
+          document.querySelector('.page-content')
+        );
+      },
+
+      show: function (request) {
+        // placeholder - use favorite ajax lib here
+        var user = { id: request.params.id };
+
+        React.renderComponent(
+          <User user={user} />,
+          document.querySelector('.page-content')
+        );
+      }
+    };
+
+    /**
+     * @jsx React.DOM
+     */
+
+     // define routes
+    Aviator.setRoutes({
+      target: AppRouteTarget,
+      // setupLayout is run for every route in the route tree.
+      '/*': 'setupLayout',
+      '/users': {
+        target: UsersRouteTarget,
+        '/': 'list',
+        '/:id': 'show'
+      }
+    });
+
+    // Start routing
+    Aviator.dispatch();
+
+    setTimeout(function(){
+      Aviator.navigate('/users/');
+    }, 2000)
 
 
 
