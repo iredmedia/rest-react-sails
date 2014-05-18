@@ -181,74 +181,77 @@
 
     var AppView = Backbone.View.extend({
       el: $("body"),
+
+
       events: {
-        "click #create": "create"
+        "click .create": "create"
       },
 
       initialize: function() {
-        this.listenTo(Users, 'add', this.addOne);
+        this.listenTo(Users, "add",    this.addOne);
+        this.listenTo(Users, "remove", this.removeOne);
         // this.listenTo(Users, 'reset', this.addAll);
-        // this.listenTo(Users, 'all', this.render);
+        // this.listenTo(Users, 'all',    this.render);
+
+        this.$el.append($("<button>").text("create").addClass("create"))
+        this.$el.append($("<ul id='list'>"));
 
         Users.fetch();
-        $('<ul id="list"></ul>').appendTo("body");
-        $('<button id="create">Create</button>').appendTo("body");
-        $('<button id="update">Update</button>').appendTo("body");
       },
+
+      // template: _.template($('<div><button id="create">create</button><ul id="list"></ul></div>').html()),
+
+      // render: function () {
+      //   this.$el.html(this.template())
+      //   return this;
+      // },
 
       create: function () {
         Users.create({"name": "KEVIN" + Date.now()})
       },
 
-      addAll: function () {
-        Users.each(this.addOne, this)
+      removeOne: function(user) {
+        Users.remove(user);
       },
 
       addOne: function(user) {
         var view = new UserView({model: user});
-        this.$("#list").append($('<li>').text(view.update()));
+        this.$("#list").append(view.render().$el) //$('<li>').text(view.update()));
       },
     });
 
     var UserView = Backbone.View.extend({
+      tagName:  "li",
+
+      // Simple template
+      template: _.template('<li><%- name %><button class="destroy">Remove</button></li>'),
+
+      // DOM Handlers
       events: {
-        "click #update": "update"
+        'click .destroy': 'clear'
       },
 
-      update: function () {
-        var name = "UserView" + Date.now();
-        // this.model.save({"name": name})
-        return name;
+      // Attach model events
+      initialize: function() {
+        this.listenTo(this.model, 'change', this.render);
+        this.listenTo(this.model, 'destroy', this.remove);
+      },
+
+      // Remove this model from the collection
+      clear: function () {
+        this.model.destroy();
+      },
+
+      // Render out the current view with the model data passed
+      render: function () {
+        this.$el.html(this.template(this.model.toJSON()));
+        return this; // enable chained calls
       }
     });
-
 
     // Create a new collection
     var App = new AppView;
 
-
-
-
-
-
-
-//    // Helper - generates a user
-//    function generate() {
-//      return new User({"name": "User" + Date.now()})
-//    }
-//
-//
-//    // Create test set of users
-//    var set = []
-//    for (var i = 0; i < 10; i++) {
-//      set.push(generate())
-//    }
-//
-//    users.add(set);
-//
-//    users.fetch();
-
-    // Push them to the stack
 
 
 
