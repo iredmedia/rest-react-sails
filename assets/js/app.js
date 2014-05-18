@@ -36,13 +36,11 @@
     var User = Backbone.Model.extend({
       defaults: function() {
         return {
-          name: "User",
-          active: false
+          first_name: "",
+          last_name: "",
+          email: "",
+          password: ""
         };
-      },
-
-      login: function() {
-        this.save({active: !this.get("active")});
       }
     });
 
@@ -51,14 +49,6 @@
       model: User,
 
       url: '/user/',
-
-      active: function () {
-        return this.where({active: true});
-      },
-
-      inactive: function () {
-        return this.where({active: !true});
-      }
     });
 
     // Instantiate a new collection
