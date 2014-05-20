@@ -84,12 +84,12 @@
       },
 
       addOne: function(user) {
-        var view = new UserView({model: user});
+        var view = new UserListView({model: user});
         this.$("#list").append(view.render().$el);
       },
     });
 
-    var UserView = Backbone.View.extend({
+    var UserListView = Backbone.View.extend({
       tagName:  "li",
 
       // Simple template
